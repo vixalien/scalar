@@ -205,6 +205,40 @@ describe('traverseDocument', () => {
     })
   })
 
+  it('uses Schemas section title when modelsSectionLabel is schemas', () => {
+    const doc: OpenApiDocument = {
+      openapi: '3.1.0',
+      info: {
+        title: 'Test API',
+        version: '1.0.0',
+      },
+      components: {
+        schemas: {
+          TestModel: coerceValue(SchemaObjectSchema, {
+            type: 'object',
+            properties: {
+              id: {
+                type: 'string',
+              },
+            },
+          }),
+        },
+      },
+      'x-scalar-original-document-hash': '',
+    }
+
+    const result = traverseDocument('doc-1', doc, {
+      ...mockOptions,
+      modelsSectionLabel: 'schemas',
+    })
+
+    expect(result.children[1]).toMatchObject({
+      type: 'models',
+      title: 'Schemas',
+      name: 'Schemas',
+    })
+  })
+
   it('should not include schemas when hidden', () => {
     const doc: OpenApiDocument = {
       openapi: '3.1.0',

@@ -1,3 +1,4 @@
+import type { ModelsSectionLabel } from '@scalar/helpers/general/get-models-section-labels'
 import type { OpenApiDocument } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import type { FuseResult } from 'fuse.js'
 import { type MaybeRefOrGetter, computed, ref, toValue } from 'vue'
@@ -11,8 +12,15 @@ const MAX_SEARCH_RESULTS = 25
 /**
  * Creates the search index from an OpenAPI document.
  */
-export function useSearchIndex(document: MaybeRefOrGetter<OpenApiDocument | undefined>) {
-  const searchIndex = computed<FuseData[]>(() => createSearchIndex(toValue(document)))
+export function useSearchIndex(
+  document: MaybeRefOrGetter<OpenApiDocument | undefined>,
+  modelsSectionLabel: MaybeRefOrGetter<ModelsSectionLabel | undefined> = 'models',
+) {
+  const searchIndex = computed<FuseData[]>(() =>
+    createSearchIndex(toValue(document), {
+      modelsSectionLabel: toValue(modelsSectionLabel) ?? 'models',
+    }),
+  )
 
   /** When the document changes we replace the search index */
   const fuse = computed(() => {

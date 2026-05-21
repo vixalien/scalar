@@ -228,14 +228,21 @@ const configurationOverrides = ref<
 >({})
 
 /** Any dev toolbar modifications are merged with the active configuration */
-const mergedConfig = computed<ApiReferenceConfiguration>(() => ({
-  // Provides a default set of values when the lookup fails
-  ...coerce(apiReferenceConfigurationSchema, {}),
-  // The active configuration based on the slug
-  ...configList.value[activeSlug.value]?.config,
-  // Any overrides from the localhost toolbar
-  ...configurationOverrides.value,
-}))
+const mergedConfig = computed<ApiReferenceConfiguration>(() => {
+  const merged = {
+    // Provides a default set of values when the lookup fails
+    ...coerce(apiReferenceConfigurationSchema, {}),
+    // The active configuration based on the slug
+    ...configList.value[activeSlug.value]?.config,
+    // Any overrides from the localhost toolbar
+    ...configurationOverrides.value,
+  }
+
+  return {
+    ...merged,
+    modelsSectionLabel: merged.modelsSectionLabel ?? 'models',
+  }
+})
 
 /** Convenience break out var to determine which routing mode we are using */
 const basePath = computed(() => mergedConfig.value.pathRouting?.basePath)
@@ -1095,6 +1102,7 @@ const showMCPButton = computed(() => {
             :document="activeOpenApiDocument"
             :eventBus="eventBus"
             :hideModels="mergedConfig.hideModels"
+            :modelsSectionLabel="mergedConfig.modelsSectionLabel"
             :searchHotKey="mergedConfig.searchHotKey"
             :showSidebar="mergedConfig.showSidebar" />
         </template>
@@ -1131,6 +1139,7 @@ const showMCPButton = computed(() => {
                   :document="activeOpenApiDocument"
                   :eventBus="eventBus"
                   :hideModels="mergedConfig.hideModels"
+                  :modelsSectionLabel="mergedConfig.modelsSectionLabel"
                   :searchHotKey="mergedConfig.searchHotKey" />
 
                 <AgentScalarButton v-if="agent.agentEnabled.value" />
@@ -1225,6 +1234,7 @@ const showMCPButton = computed(() => {
                 :document="activeOpenApiDocument"
                 :eventBus="eventBus"
                 :hideModels="mergedConfig.hideModels"
+                :modelsSectionLabel="mergedConfig.modelsSectionLabel"
                 :searchHotKey="mergedConfig.searchHotKey" />
               <template #dark-mode-toggle>
                 <ScalarColorModeToggleIcon

@@ -353,6 +353,8 @@ type ExtendedConfiguration = {
   isLoading: boolean
   /** Whether to show models in the sidebar, search, and content. */
   hideModels: boolean
+  /** Label for the components.schemas section (`models` or `schemas`). */
+  modelsSectionLabel?: 'models' | 'schemas'
   /** Sets the file type of the document to download, set to `none` to hide the download button */
   documentDownloadType: 'both' | 'yaml' | 'json' | 'direct' | 'none'
   /** @deprecated Use `documentDownloadType: 'none'` instead */

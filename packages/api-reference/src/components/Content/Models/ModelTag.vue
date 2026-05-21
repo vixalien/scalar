@@ -7,11 +7,12 @@ import SectionContainerAccordion from '@/components/Section/SectionContainerAcco
 import SectionHeaderTag from '@/components/Section/SectionHeaderTag.vue'
 import ShowMoreButton from '@/components/ShowMoreButton.vue'
 
-defineProps<{
+const { sectionTitle = 'Models' } = defineProps<{
   id: string
   isCollapsed: boolean
   eventBus: WorkspaceEventBus
   layout: 'classic' | 'modern'
+  sectionTitle?: string
 }>()
 </script>
 <template>
@@ -21,10 +22,10 @@ defineProps<{
     id="model">
     <Section
       :id="id"
-      aria-label="Models"
+      :aria-label="sectionTitle"
       @intersecting="() => eventBus?.emit('intersecting:nav-item', { id })">
       <SectionHeader>
-        <SectionHeaderTag :level="2"> Models </SectionHeaderTag>
+        <SectionHeaderTag :level="2"> {{ sectionTitle }} </SectionHeaderTag>
       </SectionHeader>
       <template v-if="!isCollapsed">
         <slot />
@@ -41,14 +42,14 @@ defineProps<{
   <!-- Classic Layout Model Container -->
   <SectionContainerAccordion
     v-else
-    aria-label="Models"
+    :aria-label="sectionTitle"
     class="pb-12"
     :modelValue="!isCollapsed"
     @update:modelValue="
       () => eventBus?.emit('toggle:nav-item', { id, open: isCollapsed })
     ">
     <template #title>
-      <SectionHeader :level="2">Models</SectionHeader>
+      <SectionHeader :level="2">{{ sectionTitle }}</SectionHeader>
     </template>
     <slot />
   </SectionContainerAccordion>

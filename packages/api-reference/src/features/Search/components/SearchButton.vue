@@ -2,6 +2,7 @@
 import { ScalarIconButton } from '@scalar/components/icon-button'
 import { useModal } from '@scalar/components/modal'
 import { ScalarSidebarSearchButton } from '@scalar/components/sidebar'
+import type { ModelsSectionLabel } from '@scalar/helpers/general/get-models-section-labels'
 import { isMacOS } from '@scalar/helpers/general/is-mac-os'
 import { ScalarIconMagnifyingGlass } from '@scalar/icons'
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
@@ -10,10 +11,11 @@ import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 import SearchModal from './SearchModal.vue'
 
-const { searchHotKey = 'k', hideModels = false } = defineProps<{
+const { searchHotKey = 'k', modelsSectionLabel = 'models' } = defineProps<{
   forceIcon?: boolean
   searchHotKey?: string
   hideModels?: boolean
+  modelsSectionLabel?: ModelsSectionLabel
   document?: OpenApiDocument
   eventBus: WorkspaceEventBus
 }>()
@@ -89,6 +91,6 @@ function handleClick() {
   <SearchModal
     :document
     :eventBus="eventBus"
-    :hideModels="hideModels"
-    :modalState="modalState" />
+    :modalState="modalState"
+    :modelsSectionLabel="modelsSectionLabel" />
 </template>

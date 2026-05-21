@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ScalarSearchResultItem } from '@scalar/components/search-results'
 import {
+  getModelsSectionLabels,
+  type ModelsSectionLabel,
+} from '@scalar/helpers/general/get-models-section-labels'
+import {
   ScalarIconBracketsCurly,
   ScalarIconTag,
   ScalarIconTerminalWindow,
@@ -9,13 +13,15 @@ import {
 import type { ScalarIconComponent } from '@scalar/icons/types'
 import { HttpMethod } from '@scalar/sidebar'
 import type { FuseResult } from 'fuse.js'
+import { computed } from 'vue'
 
 import type { EntryType, FuseData } from '@/features/Search/types'
 
-defineProps<{
+const { modelsSectionLabel = 'models' } = defineProps<{
   id: string
   isSelected: boolean
   result: FuseResult<FuseData>
+  modelsSectionLabel?: ModelsSectionLabel
 }>()
 
 const ENTRY_ICONS: { [x in EntryType]: ScalarIconComponent } = {
@@ -26,13 +32,13 @@ const ENTRY_ICONS: { [x in EntryType]: ScalarIconComponent } = {
   webhook: ScalarIconTerminalWindow,
 }
 
-const ENTRY_LABELS: { [x in EntryType]: string } = {
+const entryLabels = computed((): { [x in EntryType]: string } => ({
   heading: 'Heading',
   operation: 'Operation',
   tag: 'Tag',
-  model: 'Model',
+  model: getModelsSectionLabels(modelsSectionLabel).singular,
   webhook: 'Webhook',
-}
+}))
 </script>
 
 <template>
@@ -47,7 +53,7 @@ const ENTRY_LABELS: { [x in EntryType]: string } = {
           result.item.entry.isDeprecated,
       }">
       <span class="sr-only">
-        {{ ENTRY_LABELS[result.item.type] }}:&nbsp;
+        {{ entryLabels[result.item.type] }}:&nbsp;
         <template
           v-if="
             result.item.entry.type === 'operation' &&

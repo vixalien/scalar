@@ -32,6 +32,9 @@ export type TraverseSpecOptions = {
   /** Whether to hide model schemas from the navigation */
   hideModels: boolean
 
+  /** User-facing label for the components.schemas section */
+  modelsSectionLabel: 'models' | 'schemas'
+
   /** Whether to derive operation titles from the operation summary or the path */
   operationTitleSource?: OperationTitleSource
 

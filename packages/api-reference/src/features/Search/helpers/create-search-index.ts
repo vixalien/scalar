@@ -1,3 +1,4 @@
+import { type ModelsSectionLabel, getModelsSectionLabels } from '@scalar/helpers/general/get-models-section-labels'
 import { getResolvedRef } from '@scalar/workspace-store/helpers/get-resolved-ref'
 import { combineParams } from '@scalar/workspace-store/request-example'
 import type { TraversedEntry } from '@scalar/workspace-store/schemas/navigation'
@@ -73,18 +74,26 @@ function extractResponseExamples(responses: ResponsesObject | undefined): string
     .filter((value) => value.length > 0)
 }
 
+export type CreateSearchIndexOptions = {
+  modelsSectionLabel?: ModelsSectionLabel
+}
+
 /**
  * Create a search index from a list of entries.
  */
-export function createSearchIndex(document: OpenApiDocument | undefined): FuseData[] {
+export function createSearchIndex(
+  document: OpenApiDocument | undefined,
+  options?: CreateSearchIndexOptions,
+): FuseData[] {
   const index: FuseData[] = []
+  const { singular: modelSingularLabel } = getModelsSectionLabels(options?.modelsSectionLabel ?? 'models')
 
   /**
    * Recursively processes entries and their children to build the search index.
    */
   function processEntries(entriesToProcess: TraversedEntry[]): void {
     entriesToProcess.forEach((entry) => {
-      addEntryToIndex(entry, index, document)
+      addEntryToIndex(entry, index, document, modelSingularLabel)
 
       // Recursively process children if they exist
       if ('children' in entry && entry.children) {
@@ -101,7 +110,12 @@ export function createSearchIndex(document: OpenApiDocument | undefined): FuseDa
 /**
  * Adds a single entry to the search index, handling all entry types recursively.
  */
-function addEntryToIndex(entry: TraversedEntry, index: FuseData[], document?: OpenApiDocument): void {
+function addEntryToIndex(
+  entry: TraversedEntry,
+  index: FuseData[],
+  document: OpenApiDocument | undefined,
+  modelSingularLabel: string,
+): void {
   // Operation
   if (entry.type === 'operation') {
     const pathItem = getResolvedRef(document?.paths?.[entry.path])
@@ -166,7 +180,7 @@ function addEntryToIndex(entry: TraversedEntry, index: FuseData[], document?: Op
     index.push({
       type: 'model',
       title: entry.title,
-      description: 'Model',
+      description: modelSingularLabel,
       id: entry.id,
       body: propertyNames,
       bodyDescriptions: schemaDescription ? [schemaDescription, ...propertyDescriptions] : propertyDescriptions,
@@ -181,7 +195,7 @@ function addEntryToIndex(entry: TraversedEntry, index: FuseData[], document?: Op
     index.push({
       id: entry.id,
       type: 'heading',
-      title: 'Models',
+      title: entry.title,
       description: 'Heading',
       body: '',
       entry,

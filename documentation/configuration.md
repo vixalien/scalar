@@ -623,6 +623,20 @@ Whether models (`components.schemas` or `definitions`) should be shown in the si
 }
 ```
 
+#### modelsSectionLabel
+
+**Type:** `'models' | 'schemas'`
+
+Label for the `components.schemas` section in the sidebar, main content, and search. Use `schemas` for OpenAPI terminology; `models` is the default for backward compatibility.
+
+**Default:** `'models'`
+
+```javascript
+{
+  modelsSectionLabel: 'schemas'
+}
+```
+
 #### hideSearch
 
 **Type:** `boolean`

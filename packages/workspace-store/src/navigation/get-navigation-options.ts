@@ -16,6 +16,7 @@ export type NavigationOptions =
         | 'operationsSorter'
         | 'tagsSorter'
         | 'hideModels'
+        | 'modelsSectionLabel'
         | 'operationTitleSource'
       >
     >
@@ -158,6 +159,7 @@ export const getNavigationOptions = (documentName: string, options?: NavigationO
 
   return {
     hideModels: options?.hideModels ?? false,
+    modelsSectionLabel: options?.modelsSectionLabel ?? 'models',
     operationsSorter: options?.operationsSorter,
     tagsSorter: options?.tagsSorter,
     operationTitleSource: options?.operationTitleSource,

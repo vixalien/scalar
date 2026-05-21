@@ -455,6 +455,37 @@ describe('createSearchIndex', () => {
       expect(index[3]).toMatchObject({ title: 'Post Model', bodyDescriptions: ['A post object'] })
     })
 
+    it('uses Schemas labels when modelsSectionLabel is schemas', () => {
+      const doc = createMockDocument({
+        components: {
+          schemas: {
+            User: {
+              type: 'object',
+              title: 'User Model',
+              description: 'A user object',
+            },
+          },
+        },
+      })
+
+      doc['x-scalar-navigation'] = createNavigation('test', doc, {
+        hideModels: false,
+        modelsSectionLabel: 'schemas',
+      })
+
+      const index = createSearchIndex(doc, { modelsSectionLabel: 'schemas' })
+
+      expect(index[1]).toMatchObject({
+        type: 'heading',
+        title: 'Schemas',
+        description: 'Heading',
+      })
+      expect(index[2]).toMatchObject({
+        title: 'User Model',
+        description: 'Schema',
+      })
+    })
+
     it('collects property names through a oneOf model schema', () => {
       // Mirrors the Galaxy spec's CelestialBody — top-level oneOf of two $ref-ed object schemas.
       const planet = {

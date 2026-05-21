@@ -178,7 +178,8 @@ function getPathValue(entry: TraversedOperation | TraversedWebhook) {
       :id="entry.id"
       :eventBus
       :isCollapsed="!expandedItems[entry.id]"
-      :layout="options.layout">
+      :layout="options.layout"
+      :sectionTitle="entry.title">
       <TraversedEntry
         :authStore
         :clientOptions
