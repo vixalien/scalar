@@ -74,7 +74,7 @@ function extractResponseExamples(responses: ResponsesObject | undefined): string
     .filter((value) => value.length > 0)
 }
 
-export type CreateSearchIndexOptions = {
+type CreateSearchIndexOptions = {
   modelsSectionLabel?: ModelsSectionLabel
 }
 
