@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ScalarSearchResultItem } from '@scalar/components/search-results'
-import type { ModelsSectionLabel } from '@scalar/types/api-reference'
 import {
   ScalarIconBracketsCurly,
   ScalarIconTag,
@@ -9,6 +8,7 @@ import {
 } from '@scalar/icons'
 import type { ScalarIconComponent } from '@scalar/icons/types'
 import { HttpMethod } from '@scalar/sidebar'
+import type { ModelsSectionLabel } from '@scalar/types/api-reference'
 import type { FuseResult } from 'fuse.js'
 import { computed } from 'vue'
 

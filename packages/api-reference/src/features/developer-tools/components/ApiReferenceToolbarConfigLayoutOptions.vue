@@ -44,7 +44,9 @@ function setValue(
   }
 }
 
-const modelsSectionLabel = computed(() => configuration?.modelsSectionLabel ?? 'Models')
+const modelsSectionLabel = computed(
+  () => configuration?.modelsSectionLabel ?? 'Models',
+)
 </script>
 <template>
   <ScalarFormInputGroup>
