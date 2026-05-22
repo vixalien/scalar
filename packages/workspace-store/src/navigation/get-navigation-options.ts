@@ -28,6 +28,11 @@ export type NavigationOptions =
  * The returned options can be influenced by the provided DocumentConfiguration
  */
 export const getNavigationOptions = (documentName: string, options?: NavigationOptions): TraverseSpecOptions => {
+  const modelsSectionLabel = options?.modelsSectionLabel ?? 'Models'
+  const modelsSectionSlug = slugify(modelsSectionLabel)
+  /** Legacy singular segment for individual schemas when using the default label. */
+  const modelEntryPrefix = modelsSectionLabel === 'Models' ? 'model' : modelsSectionSlug
+
   const generateId: IdGenerator = (props) => {
     const documentId = slugify(documentName)
 
@@ -124,7 +129,7 @@ export const getNavigationOptions = (documentName: string, options?: NavigationO
     // -------- Default model id generation logic --------
     if (props.type === 'model') {
       if (!props.name) {
-        return `${documentId}/models`
+        return `${documentId}/${modelsSectionSlug}`
       }
 
       const prefixTag = props.parentTag
@@ -136,12 +141,12 @@ export const getNavigationOptions = (documentName: string, options?: NavigationO
         : `${documentId}/`
 
       if (options?.generateModelSlug) {
-        return `${prefixTag}model/${options.generateModelSlug({
+        return `${prefixTag}${modelEntryPrefix}/${options.generateModelSlug({
           name: props.name,
         })}`
       }
 
-      return `${prefixTag}model/${slugify(props.name, { preserveCase: true })}`
+      return `${prefixTag}${modelEntryPrefix}/${slugify(props.name, { preserveCase: true })}`
     }
 
     if (props.type === 'example') {
@@ -159,7 +164,7 @@ export const getNavigationOptions = (documentName: string, options?: NavigationO
 
   return {
     hideModels: options?.hideModels ?? false,
-    modelsSectionLabel: options?.modelsSectionLabel ?? 'Models',
+    modelsSectionLabel,
     operationsSorter: options?.operationsSorter,
     tagsSorter: options?.tagsSorter,
     operationTitleSource: options?.operationTitleSource,

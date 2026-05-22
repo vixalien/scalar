@@ -234,8 +234,13 @@ describe('traverseDocument', () => {
 
     expect(result.children[1]).toMatchObject({
       type: 'models',
+      id: 'doc-1/schemas',
       title: 'Schemas',
       name: 'Schemas',
+    })
+    expect((result.children[1] as TraversedTag).children?.[0]).toMatchObject({
+      id: 'doc-1/schemas/TestModel',
+      type: 'model',
     })
   })
 

@@ -218,6 +218,22 @@ describe('get-navigation-options', () => {
     expect(id).toBe('pet-store/models')
   })
 
+  it('generates schemas section slug when modelsSectionLabel is Schemas', () => {
+    const options = getNavigationOptions('Pet Store', { modelsSectionLabel: 'Schemas' })
+    const sectionId = options.generateId({
+      type: 'model',
+      parentId: 'pet-store',
+    })
+    const schemaId = options.generateId({
+      type: 'model',
+      parentId: 'pet-store',
+      name: 'User',
+    })
+
+    expect(sectionId).toBe('pet-store/schemas')
+    expect(schemaId).toBe('pet-store/schemas/User')
+  })
+
   it('generates model ID with name (preserves case)', () => {
     const options = getNavigationOptions('Pet Store')
     const id = options.generateId({

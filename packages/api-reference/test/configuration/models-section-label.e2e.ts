@@ -5,7 +5,7 @@ test.describe('modelsSectionLabel', () => {
   test('shows Schemas heading when set to Schemas', async ({ page }) => {
     const example = await serveExample({ modelsSectionLabel: 'Schemas' })
 
-    await page.goto(`${example}#models`)
+    await page.goto(`${example}#schemas`)
 
     await expect(page.getByRole('heading', { name: 'Schemas', level: 2 })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Models', level: 2 })).not.toBeVisible()
