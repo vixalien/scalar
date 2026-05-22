@@ -1,4 +1,4 @@
-import { type ModelsSectionLabel, getModelsSectionLabels } from '@scalar/helpers/general/get-models-section-labels'
+import type { ModelsSectionLabel } from '@scalar/types/api-reference'
 import { getResolvedRef } from '@scalar/workspace-store/helpers/get-resolved-ref'
 import { combineParams } from '@scalar/workspace-store/request-example'
 import type { TraversedEntry } from '@scalar/workspace-store/schemas/navigation'
@@ -86,14 +86,14 @@ export function createSearchIndex(
   options?: CreateSearchIndexOptions,
 ): FuseData[] {
   const index: FuseData[] = []
-  const { singular: modelSingularLabel } = getModelsSectionLabels(options?.modelsSectionLabel ?? 'models')
+  const modelsSectionTitle = options?.modelsSectionLabel ?? 'Models'
 
   /**
    * Recursively processes entries and their children to build the search index.
    */
   function processEntries(entriesToProcess: TraversedEntry[]): void {
     entriesToProcess.forEach((entry) => {
-      addEntryToIndex(entry, index, document, modelSingularLabel)
+      addEntryToIndex(entry, index, document, modelsSectionTitle)
 
       // Recursively process children if they exist
       if ('children' in entry && entry.children) {
@@ -114,7 +114,7 @@ function addEntryToIndex(
   entry: TraversedEntry,
   index: FuseData[],
   document: OpenApiDocument | undefined,
-  modelSingularLabel: string,
+  modelsSectionTitle: string,
 ): void {
   // Operation
   if (entry.type === 'operation') {
@@ -180,7 +180,7 @@ function addEntryToIndex(
     index.push({
       type: 'model',
       title: entry.title,
-      description: modelSingularLabel,
+      description: modelsSectionTitle,
       id: entry.id,
       body: propertyNames,
       bodyDescriptions: schemaDescription ? [schemaDescription, ...propertyDescriptions] : propertyDescriptions,

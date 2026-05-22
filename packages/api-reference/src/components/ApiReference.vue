@@ -240,7 +240,7 @@ const mergedConfig = computed<ApiReferenceConfiguration>(() => {
 
   return {
     ...merged,
-    modelsSectionLabel: merged.modelsSectionLabel ?? 'models',
+    modelsSectionLabel: merged.modelsSectionLabel ?? 'Models',
   }
 })
 

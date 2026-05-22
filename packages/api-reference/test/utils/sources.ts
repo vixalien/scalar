@@ -20,6 +20,7 @@ export const sources = [
     title: 'Scalar Galaxy', // optional, would fallback to 'API #1'
     slug: 'scalar-galaxy', // optional, would be auto-generated from the title or the index
     content: galaxy,
+    modelsSectionLabel: 'Schemas',
   },
   {
     title: 'Scalar Galaxy (Classic Layout)',

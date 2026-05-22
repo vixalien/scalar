@@ -1,5 +1,3 @@
-import { getModelsSectionLabels } from '@scalar/helpers/general/get-models-section-labels'
-
 import { unpackProxyObject } from '@/helpers/unpack-proxy'
 import { type NavigationOptions, getNavigationOptions } from '@/navigation/get-navigation-options'
 import type { TagsMap } from '@/navigation/types'
@@ -24,8 +22,6 @@ import { traverseWebhooks } from './traverse-webhooks'
 export const traverseDocument = (documentName: string, document: OpenApiDocument, options?: NavigationOptions) => {
   const { hideModels, modelsSectionLabel, tagsSorter, operationsSorter, generateId, operationTitleSource } =
     getNavigationOptions(documentName, options)
-
-  const modelsSectionTitle = getModelsSectionLabels(modelsSectionLabel).section
 
   const documentId = generateId({
     type: 'document',
@@ -112,8 +108,8 @@ export const traverseDocument = (documentName: string, document: OpenApiDocument
           type: 'model',
           parentId: documentId,
         }),
-        title: modelsSectionTitle,
-        name: modelsSectionTitle,
+        title: modelsSectionLabel,
+        name: modelsSectionLabel,
         children: untaggedModels,
       })
     }

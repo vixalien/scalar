@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { ScalarSearchResultItem } from '@scalar/components/search-results'
-import {
-  getModelsSectionLabels,
-  type ModelsSectionLabel,
-} from '@scalar/helpers/general/get-models-section-labels'
+import type { ModelsSectionLabel } from '@scalar/types/api-reference'
 import {
   ScalarIconBracketsCurly,
   ScalarIconTag,
@@ -17,7 +14,7 @@ import { computed } from 'vue'
 
 import type { EntryType, FuseData } from '@/features/Search/types'
 
-const { modelsSectionLabel = 'models' } = defineProps<{
+const { modelsSectionLabel = 'Models' } = defineProps<{
   id: string
   isSelected: boolean
   result: FuseResult<FuseData>
@@ -36,7 +33,7 @@ const entryLabels = computed((): { [x in EntryType]: string } => ({
   heading: 'Heading',
   operation: 'Operation',
   tag: 'Tag',
-  model: getModelsSectionLabels(modelsSectionLabel).singular,
+  model: modelsSectionLabel,
   webhook: 'Webhook',
 }))
 </script>

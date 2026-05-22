@@ -159,7 +159,7 @@ export const getNavigationOptions = (documentName: string, options?: NavigationO
 
   return {
     hideModels: options?.hideModels ?? false,
-    modelsSectionLabel: options?.modelsSectionLabel ?? 'models',
+    modelsSectionLabel: options?.modelsSectionLabel ?? 'Models',
     operationsSorter: options?.operationsSorter,
     tagsSorter: options?.tagsSorter,
     operationTitleSource: options?.operationTitleSource,

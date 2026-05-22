@@ -205,7 +205,7 @@ describe('traverseDocument', () => {
     })
   })
 
-  it('uses Schemas section title when modelsSectionLabel is schemas', () => {
+  it('uses Schemas section title when modelsSectionLabel is Schemas', () => {
     const doc: OpenApiDocument = {
       openapi: '3.1.0',
       info: {
@@ -229,7 +229,7 @@ describe('traverseDocument', () => {
 
     const result = traverseDocument('doc-1', doc, {
       ...mockOptions,
-      modelsSectionLabel: 'schemas',
+      modelsSectionLabel: 'Schemas',
     })
 
     expect(result.children[1]).toMatchObject({

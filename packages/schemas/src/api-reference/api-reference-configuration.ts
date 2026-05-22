@@ -50,9 +50,9 @@ export const apiReferenceConfigurationSchema = intersection([
       default: false,
       typeComment: 'Whether to show models in the sidebar, search, and content.',
     }),
-    modelsSectionLabel: optional(union([literal('models'), literal('schemas')]), {
+    modelsSectionLabel: optional(union([literal('Models'), literal('Schemas'), string()]), {
       typeComment:
-        'Label for the components.schemas section in the sidebar, content, and search. Use `schemas` for OpenAPI terminology.',
+        'Label for the components.schemas section in the sidebar, content, and search. Use `Schemas` for OpenAPI terminology.',
     }),
     documentDownloadType: union(
       [literal('both'), literal('yaml'), literal('json'), literal('direct'), literal('none')],
@@ -301,7 +301,7 @@ export const apiReferenceConfigurationWithSourceSchema = (rawInput: unknown) => 
     delete input.showToolbar
   }
 
-  input.modelsSectionLabel ??= 'models'
+  input.modelsSectionLabel ??= 'Models'
 
   return input
 }

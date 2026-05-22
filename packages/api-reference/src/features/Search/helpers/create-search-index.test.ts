@@ -455,7 +455,7 @@ describe('createSearchIndex', () => {
       expect(index[3]).toMatchObject({ title: 'Post Model', bodyDescriptions: ['A post object'] })
     })
 
-    it('uses Schemas labels when modelsSectionLabel is schemas', () => {
+    it('uses Schemas labels when modelsSectionLabel is Schemas', () => {
       const doc = createMockDocument({
         components: {
           schemas: {
@@ -470,10 +470,10 @@ describe('createSearchIndex', () => {
 
       doc['x-scalar-navigation'] = createNavigation('test', doc, {
         hideModels: false,
-        modelsSectionLabel: 'schemas',
+        modelsSectionLabel: 'Schemas',
       })
 
-      const index = createSearchIndex(doc, { modelsSectionLabel: 'schemas' })
+      const index = createSearchIndex(doc, { modelsSectionLabel: 'Schemas' })
 
       expect(index[1]).toMatchObject({
         type: 'heading',
@@ -482,7 +482,7 @@ describe('createSearchIndex', () => {
       })
       expect(index[2]).toMatchObject({
         title: 'User Model',
-        description: 'Schema',
+        description: 'Schemas',
       })
     })
 

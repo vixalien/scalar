@@ -2,8 +2,8 @@ import { expect, test } from '@playwright/test'
 import { serveExample } from '@test/utils/serve-example'
 
 test.describe('modelsSectionLabel', () => {
-  test('shows Schemas heading when set to schemas', async ({ page }) => {
-    const example = await serveExample({ modelsSectionLabel: 'schemas' })
+  test('shows Schemas heading when set to Schemas', async ({ page }) => {
+    const example = await serveExample({ modelsSectionLabel: 'Schemas' })
 
     await page.goto(`${example}#models`)
 

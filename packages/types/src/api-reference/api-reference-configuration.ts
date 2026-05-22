@@ -65,10 +65,14 @@ export const apiReferenceConfigurationSchema = baseConfigurationSchema.extend({
   hideModels: z.boolean().optional().default(false).catch(false),
   /**
    * Label for the components.schemas section in the sidebar, content, and search.
-   * Use `schemas` for OpenAPI terminology; `models` is the historical default.
-   * @default 'models'
+   * Use `Schemas` for OpenAPI terminology; `Models` is the historical default.
+   * @default 'Models'
    */
-  modelsSectionLabel: z.enum(['models', 'schemas']).optional().default('models').catch('models'),
+  modelsSectionLabel: z
+    .union([z.literal('Models'), z.literal('Schemas'), z.string()])
+    .optional()
+    .default('Models')
+    .catch('Models'),
   /**
    * Sets the file type of the document to download, set to `none` to hide the download button
    * @default 'both'

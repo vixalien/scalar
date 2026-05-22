@@ -12,6 +12,7 @@ export type {
   BaseConfiguration,
   ExternalUrls,
   LifecycleHooks,
+  ModelsSectionLabel,
   SecurityScheme,
   SecuritySchemeApiKey,
   SecuritySchemeHttp,

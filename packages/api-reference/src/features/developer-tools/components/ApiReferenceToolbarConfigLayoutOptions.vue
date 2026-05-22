@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ScalarFormInputGroup } from '@scalar/components/form'
 import { ScalarToggleInput } from '@scalar/components/toggle'
-import { getModelsSectionLabels } from '@scalar/helpers/general/get-models-section-labels'
 import type { ApiReferenceConfiguration } from '@scalar/types/api-reference'
 import { computed } from 'vue'
 
@@ -45,9 +44,7 @@ function setValue(
   }
 }
 
-const modelsSectionLabels = computed(() =>
-  getModelsSectionLabels(configuration?.modelsSectionLabel ?? 'models'),
-)
+const modelsSectionLabel = computed(() => configuration?.modelsSectionLabel ?? 'Models')
 </script>
 <template>
   <ScalarFormInputGroup>
@@ -69,7 +66,7 @@ const modelsSectionLabels = computed(() =>
     <ScalarToggleInput
       :modelValue="getValue('expandAllModelSections')"
       @update:modelValue="(v) => setValue('expandAllModelSections', !!v)">
-      Expand All {{ modelsSectionLabels.section }} Sections
+      Expand All {{ modelsSectionLabel }} Sections
     </ScalarToggleInput>
     <ScalarToggleInput
       :modelValue="getValue('expandAllResponses')"
@@ -89,7 +86,7 @@ const modelsSectionLabels = computed(() =>
     <ScalarToggleInput
       :modelValue="getValue('hideModels')"
       @update:modelValue="(v) => setValue('hideModels', !!v)">
-      Hide {{ modelsSectionLabels.section }}
+      Hide {{ modelsSectionLabel }}
     </ScalarToggleInput>
     <ScalarToggleInput
       :modelValue="getValue('hideSearch')"
