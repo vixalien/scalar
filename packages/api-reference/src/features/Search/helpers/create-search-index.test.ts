@@ -389,7 +389,7 @@ describe('createSearchIndex', () => {
         },
         {
           title: 'User Model',
-          description: 'Model',
+          description: 'Models',
           body: ['name', 'email'],
           bodyDescriptions: ['A user object', 'Display name'],
         },
@@ -421,7 +421,7 @@ describe('createSearchIndex', () => {
         },
         {
           title: 'Post Model',
-          description: 'Model',
+          description: 'Models',
           body: [],
           bodyDescriptions: [],
         },
