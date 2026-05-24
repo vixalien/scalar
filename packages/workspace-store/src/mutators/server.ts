@@ -1,6 +1,7 @@
 import { findVariables } from '@scalar/helpers/regex/find-variables'
 
 import type { ServerEvents, ServerMeta } from '@/events/definitions/server'
+import { getPathItemOperation } from '@/helpers/for-each-path-item-operation'
 import { getResolvedRef } from '@/helpers/get-resolved-ref'
 import { unpackProxyObject } from '@/helpers/unpack-proxy'
 import { isOpenApiDocument } from '@/schemas/type-guards'
@@ -28,7 +29,7 @@ const getServerTarget = (document: WorkspaceDocument | null, meta: ServerMeta): 
   if (meta.type === 'document') {
     return document
   }
-  return getResolvedRef(document.paths?.[meta.path]?.[meta.method]) ?? null
+  return getResolvedRef(getPathItemOperation(document.paths?.[meta.path], meta.method)) ?? null
 }
 
 /**

@@ -1,3 +1,4 @@
+import { getPathItemOperation } from '@scalar/workspace-store/helpers/for-each-path-item-operation'
 import { getResolvedRef } from '@scalar/workspace-store/helpers/get-resolved-ref'
 import { combineParams } from '@scalar/workspace-store/request-example'
 import type { TraversedEntry } from '@scalar/workspace-store/schemas/navigation'
@@ -105,7 +106,8 @@ function addEntryToIndex(entry: TraversedEntry, index: FuseData[], document?: Op
   // Operation
   if (entry.type === 'operation') {
     const pathItem = getResolvedRef(document?.paths?.[entry.path])
-    const operation = (getResolvedRef(pathItem?.[entry.method]) ?? {}) as OperationObject
+    const operation = (getResolvedRef(getPathItemOperation(document?.paths?.[entry.path], entry.method)) ??
+      {}) as OperationObject
     const operationWithPathParams = {
       ...operation,
       parameters: combineParams(pathItem?.parameters, operation.parameters),
@@ -138,7 +140,7 @@ function addEntryToIndex(entry: TraversedEntry, index: FuseData[], document?: Op
 
   // Webhook
   if (entry.type === 'webhook') {
-    const webhook = getResolvedRef(document?.webhooks?.[entry.name]?.[entry.method]) ?? {}
+    const webhook = getResolvedRef(getPathItemOperation(document?.webhooks?.[entry.name], entry.method)) ?? {}
     const webhookDescription = webhook.description || ''
 
     index.push({

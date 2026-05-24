@@ -94,8 +94,8 @@ const isModel = (entry: TraversedEntry): entry is TraversedSchema =>
 
 function getPathValue(entry: TraversedOperation | TraversedWebhook) {
   return isWebhook(entry)
-    ? document.webhooks?.[entry.name]
-    : document.paths?.[entry.path]
+    ? getResolvedRef(document.webhooks?.[entry.name])
+    : getResolvedRef(document.paths?.[entry.path])
 }
 </script>
 

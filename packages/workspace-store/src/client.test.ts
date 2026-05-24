@@ -1,4 +1,5 @@
 import { cwd } from 'node:process'
+import { getPathItemOperation } from '@/helpers/for-each-path-item-operation'
 
 import { isObject } from '@scalar/helpers/object/is-object'
 import { consoleErrorSpy, resetConsoleSpies } from '@scalar/helpers/testing/console-spies'
@@ -384,7 +385,7 @@ describe('create-workspace-store', () => {
     })
 
     expect(
-      (getActiveOpenApiDocument(store)?.paths?.['/users']?.get as any)?.responses?.[200]?.content['application/json']
+      (getPathItemOperation(getActiveOpenApiDocument(store)?.paths?.['/users'], 'get') as any)?.responses?.[200]?.content['application/json']
         .schema.items['$ref-value'].properties.name,
     ).toEqual({
       type: 'string',
@@ -421,7 +422,7 @@ describe('create-workspace-store', () => {
     })
 
     // The operation should not be resolved on the fly
-    expect(getActiveOpenApiDocument(store)?.paths?.['/users']?.get).toEqual({
+    expect(getPathItemOperation(getActiveOpenApiDocument(store)?.paths?.['/users'], 'get')).toEqual({
       '$ref': `${url}/default/operations/~1users/get#`,
       $global: true,
     })
@@ -430,12 +431,12 @@ describe('create-workspace-store', () => {
     await store.resolve(['paths', '/users', 'get'])
 
     // We expect the ref to have been resolved with the correct contents
-    expect((getActiveOpenApiDocument(store)?.paths?.['/users']?.get as any)['$ref-value'].summary).toEqual(
+    expect((getPathItemOperation(getActiveOpenApiDocument(store)?.paths?.['/users'], 'get') as any)['$ref-value'].summary).toEqual(
       getDocument().paths['/users'].get.summary,
     )
 
     expect(
-      (getActiveOpenApiDocument(store)?.paths?.['/users']?.get as any)['$ref-value']?.responses?.[200]?.content[
+      (getPathItemOperation(getActiveOpenApiDocument(store)?.paths?.['/users'], 'get') as any)['$ref-value']?.responses?.[200]?.content[
         'application/json'
       ]?.schema?.items['$ref-value']['$ref-value'],
     ).toEqual({
@@ -549,7 +550,7 @@ describe('create-workspace-store', () => {
     })
 
     // The operation should not be resolved on the fly
-    expect(getActiveOpenApiDocument(store)?.paths?.['/users']?.get).toEqual({
+    expect(getPathItemOperation(getActiveOpenApiDocument(store)?.paths?.['/users'], 'get')).toEqual({
       '$ref': `${url}/default/operations/~1users/get#`,
       $global: true,
     })

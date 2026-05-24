@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
+import { getPathItemOperation } from '@/helpers/for-each-path-item-operation'
 import { getResolvedRef } from '@/helpers/get-resolved-ref'
 import type { OpenApiDocument } from '@/schemas/v3.1/strict/openapi-document'
 
@@ -64,7 +65,7 @@ describe('initializeServers', () => {
     const result = initializeServers(document, { meta: { type: 'operation', path: '/users', method: 'get' } })
 
     expect(result).toEqual([])
-    const operation = getResolvedRef(document.paths?.['/users']?.get)
+    const operation = getResolvedRef(getPathItemOperation(document.paths?.['/users'], 'get'))
     expect(operation?.servers).toEqual([])
   })
 
@@ -83,7 +84,7 @@ describe('initializeServers', () => {
     const result = initializeServers(document, { meta: { type: 'operation', path: '/users', method: 'get' } })
 
     expect(result).toEqual([])
-    const operation = getResolvedRef(document.paths?.['/users']?.get)
+    const operation = getResolvedRef(getPathItemOperation(document.paths?.['/users'], 'get'))
     expect(operation?.servers).toEqual([])
   })
 
@@ -139,7 +140,7 @@ describe('addServer', () => {
     const result = addServer(document, { meta: { type: 'operation', path: '/users', method: 'get' } })
 
     expect(result).toBeDefined()
-    const operation = getResolvedRef(document.paths?.['/users']?.get)
+    const operation = getResolvedRef(getPathItemOperation(document.paths?.['/users'], 'get'))
     expect(operation?.servers).toHaveLength(1)
     expect(operation?.servers?.[0]).toEqual(result)
   })
@@ -202,7 +203,7 @@ describe('addServer', () => {
       meta: { type: 'operation', path: '/users', method: 'get' },
     })
 
-    const operation = getResolvedRef(document.paths?.['/users']?.get)
+    const operation = getResolvedRef(getPathItemOperation(document.paths?.['/users'], 'get'))
     expect(operation?.servers?.[0]?.url).toBe('https://api.example.com')
     expect(operation?.['x-scalar-selected-server']).toBe('https://api.example.com')
   })
@@ -472,7 +473,7 @@ describe('updateServer', () => {
     })
 
     expect(result?.url).toBe('https://api-v2.example.com')
-    const operation = getResolvedRef(document.paths?.['/users']?.get)
+    const operation = getResolvedRef(getPathItemOperation(document.paths?.['/users'], 'get'))
     expect(operation?.servers?.[0]?.url).toBe('https://api-v2.example.com')
   })
 })
@@ -533,7 +534,7 @@ describe('deleteServer', () => {
 
     deleteServer(document, { index: 0, meta: { type: 'operation', path: '/users', method: 'get' } })
 
-    const operation = getResolvedRef(document.paths?.['/users']?.get)
+    const operation = getResolvedRef(getPathItemOperation(document.paths?.['/users'], 'get'))
     expect(operation?.servers).toHaveLength(1)
     expect(operation?.servers?.[0]?.url).toBe('https://dev.example.com')
   })
@@ -593,7 +594,7 @@ describe('clearServers', () => {
 
     clearServers(document, { meta: { type: 'operation', path: '/users', method: 'get' } })
 
-    const operation = getResolvedRef(document.paths?.['/users']?.get)
+    const operation = getResolvedRef(getPathItemOperation(document.paths?.['/users'], 'get'))
     expect(operation?.servers).toBeUndefined()
     expect(operation?.['x-scalar-selected-server']).toBeUndefined()
   })
@@ -618,7 +619,7 @@ describe('clearServers', () => {
     expect(document.servers?.[0]?.url).toBe('https://doc.example.com')
     expect(document['x-scalar-selected-server']).toBe('https://doc.example.com')
 
-    const operation = getResolvedRef(document.paths?.['/users']?.get)
+    const operation = getResolvedRef(getPathItemOperation(document.paths?.['/users'], 'get'))
     expect(operation?.servers).toBeUndefined()
     expect(operation?.['x-scalar-selected-server']).toBeUndefined()
   })
@@ -779,7 +780,7 @@ describe('updateServerVariables', () => {
     })
 
     expect(result?.default).toBe('staging')
-    const operation = getResolvedRef(document.paths?.['/users']?.get)
+    const operation = getResolvedRef(getPathItemOperation(document.paths?.['/users'], 'get'))
     expect(operation?.servers?.[0]?.variables?.env?.default).toBe('staging')
   })
 })
@@ -1040,7 +1041,7 @@ describe('updateSelectedServer', () => {
     })
 
     expect(result).toBe('https://api.example.com')
-    const operation = getResolvedRef(document.paths?.['/users']?.get)
+    const operation = getResolvedRef(getPathItemOperation(document.paths?.['/users'], 'get'))
     expect(operation?.['x-scalar-selected-server']).toBe('https://api.example.com')
   })
 })
