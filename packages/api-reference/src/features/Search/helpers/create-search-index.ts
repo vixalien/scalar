@@ -1,4 +1,7 @@
-import { getPathItemOperation } from '@scalar/workspace-store/helpers/for-each-path-item-operation'
+import {
+  getPathItemOperation,
+  getResolvedPathItem,
+} from '@scalar/workspace-store/helpers/for-each-path-item-operation'
 import { getResolvedRef } from '@scalar/workspace-store/helpers/get-resolved-ref'
 import { combineParams } from '@scalar/workspace-store/request-example'
 import type { TraversedEntry } from '@scalar/workspace-store/schemas/navigation'
@@ -105,7 +108,7 @@ export function createSearchIndex(document: OpenApiDocument | undefined): FuseDa
 function addEntryToIndex(entry: TraversedEntry, index: FuseData[], document?: OpenApiDocument): void {
   // Operation
   if (entry.type === 'operation') {
-    const pathItem = getResolvedRef(document?.paths?.[entry.path])
+    const pathItem = getResolvedPathItem(document?.paths?.[entry.path])
     const operation = (getResolvedRef(getPathItemOperation(document?.paths?.[entry.path], entry.method)) ??
       {}) as OperationObject
     const operationWithPathParams = {
