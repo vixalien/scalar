@@ -11,6 +11,7 @@ export {
 } from './build-request'
 export { deSerializeParameter } from './header/de-serialize-parameter'
 export { filterGlobalCookie } from './header/filter-global-cookies'
+export { isParamDisabled } from './header/is-param-disabled'
 export {
   serializeContentValue,
   serializeDeepObjectStyle,

@@ -32,6 +32,7 @@ export {
   getResolvedUrl,
   getSelectedBodyContentType,
   getServerVariables,
+  isParamDisabled,
   requestFactory,
   resolveExecutableRequestUrl,
   resolveRequestFactoryUrl,
