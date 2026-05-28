@@ -5,6 +5,7 @@
       "**",
       "!**/node_modules",
       "!**/dist",
+      "!**/.claude/worktrees/**",
       "!**/.venv",
       "!**/.turbo",
       "!**/.nuxt",
