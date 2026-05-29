@@ -1,4 +1,4 @@
-import { isClient } from '@scalar/blocks/operation-code-sample'
+import { isClient } from '@scalar/blocks/code-example'
 import type { WorkspaceStore } from '@scalar/workspace-store/client'
 
 import { authStorage, clientStorage } from '@/helpers/storage'

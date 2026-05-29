@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OperationCodeSample } from '@scalar/blocks/operation-code-sample'
+import { CodeExample } from '@scalar/blocks/code-example'
 import { ScalarErrorBoundary } from '@scalar/components/error-boundary'
 import { ScalarMarkdown } from '@scalar/components/markdown'
 import { ScalarIconWebhooksLogo } from '@scalar/icons'
@@ -213,7 +213,7 @@ provide(REQUEST_BODY_COMPOSITION_INDEX_SYMBOL, requestBodyCompositionSelection)
 
             <!-- New Example Request -->
             <ScalarErrorBoundary>
-              <OperationCodeSample
+              <CodeExample
                 :key="requestBodyCompositionSelectionKey"
                 :clientOptions
                 :eventBus
@@ -252,7 +252,7 @@ provide(REQUEST_BODY_COMPOSITION_INDEX_SYMBOL, requestBodyCompositionSelection)
                       " />
                   </div>
                 </template>
-              </OperationCodeSample>
+              </CodeExample>
             </ScalarErrorBoundary>
 
             <ScalarErrorBoundary>

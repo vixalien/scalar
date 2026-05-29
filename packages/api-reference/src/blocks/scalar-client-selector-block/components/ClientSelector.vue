@@ -3,7 +3,7 @@ import { TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/vue'
 import {
   DEFAULT_CLIENT,
   type ClientOptionGroup,
-} from '@scalar/blocks/operation-code-sample'
+} from '@scalar/blocks/code-example'
 import { ScalarCodeBlock } from '@scalar/components/code-block'
 import { ScalarMarkdown } from '@scalar/components/markdown'
 import type { AvailableClient } from '@scalar/snippetz'
