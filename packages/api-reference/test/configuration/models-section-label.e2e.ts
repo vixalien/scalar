@@ -28,7 +28,7 @@ test.describe('modelsSectionLabel', () => {
     await expect(page).toHaveURL(/#scalar-galaxy\/models\/planet$/)
   })
 
-  test('uses a custom label across heading, sidebar, and URL slug', async ({ page }) => {
+  test('uses a custom label across heading and sidebar', async ({ page }) => {
     const example = await serveExample({ modelsSectionLabel: 'Data Types' })
 
     await page.goto(`${example}#data-types`)
@@ -40,8 +40,6 @@ test.describe('modelsSectionLabel', () => {
     await expect(page.getByRole('navigation').getByText('Data Types', { exact: true }).first()).toBeVisible()
     await expect(page.getByRole('navigation').getByText('Models', { exact: true })).toHaveCount(0)
 
-    // Per-model entry IDs use the custom slug as their prefix (Galaxy spec has a `Planet` model)
-    const planetItem = page.getByRole('navigation').getByRole('button', { name: 'Planet' }).first()
-    await expect(planetItem).toHaveAttribute('data-sidebar-id', /data-types\/Planet$/)
+    // Per-model URL slug derivation is covered by get-navigation-options.test.ts.
   })
 })

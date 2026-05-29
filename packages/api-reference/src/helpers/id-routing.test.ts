@@ -903,6 +903,12 @@ describe('redirectLegacyModelUrl', () => {
       expect(result?.hash).toBe('#models/User')
     })
 
+    it('rewrites a legacy hash that still includes the doc slug', () => {
+      // Old bookmarks (or hand-typed URLs) sometimes include the doc slug even in single-doc mode.
+      const result = redirectLegacyModelUrl('https://example.com/#default/model/User', 'models', 'default', false)
+      expect(result?.hash).toBe('#default/models/User')
+    })
+
     it('returns null for tagged legacy hashes (ambiguous with tag named "model")', () => {
       // We cannot tell `#tag/<slug>/model/<name>` apart from an operation under a tag named "model"
       // once the document slug is stripped, so we leave these alone.

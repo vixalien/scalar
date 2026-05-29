@@ -190,18 +190,28 @@ export const redirectLegacyModelUrl = (
   const escapedDoc = escapeRegex(documentSlug)
   // Optional `(tag-group/<n>/)?tag/<slug>/` block in front of `model/`.
   const tagPrefix = '(?:(?:tag-group\\/[^/]+\\/)?tag\\/[^/]+\\/)?'
+  const slugAnchoredHash = new RegExp(`^(#${escapedDoc}\\/${tagPrefix})model\\/`)
+  const replacement = `$1${modelsSectionSlug}/`
 
-  const hashPattern = isMultiDocument ? new RegExp(`^(#${escapedDoc}\\/${tagPrefix})model\\/`) : /^(#)model\//
-  const newHash = next.hash.replace(hashPattern, `$1${modelsSectionSlug}/`)
+  // Always try the slug-anchored form first — old bookmarks may include the doc slug
+  // even in single-document mode.
+  let newHash = next.hash.replace(slugAnchoredHash, replacement)
+  if (newHash === next.hash && !isMultiDocument) {
+    // Single-doc fallback: URL omits the doc slug (`#model/<name>`). We can only
+    // safely rewrite top-level models here — `#tag/<slug>/model/<name>` is
+    // ambiguous with an operation under a tag literally named "model".
+    newHash = next.hash.replace(/^(#)model\//, replacement)
+  }
 
   let newPathname = next.pathname
   if (basePath !== undefined && !basePath.startsWith('#')) {
     const escapedBase = escapeRegex(sanitizeBasePath(basePath))
     const basePrefix = escapedBase ? `\\/${escapedBase}` : ''
-    const pathPattern = isMultiDocument
-      ? new RegExp(`^(${basePrefix}\\/${escapedDoc}\\/${tagPrefix})model\\/`)
-      : new RegExp(`^(${basePrefix}\\/)model\\/`)
-    newPathname = next.pathname.replace(pathPattern, `$1${modelsSectionSlug}/`)
+    const slugAnchoredPath = new RegExp(`^(${basePrefix}\\/${escapedDoc}\\/${tagPrefix})model\\/`)
+    newPathname = next.pathname.replace(slugAnchoredPath, replacement)
+    if (newPathname === next.pathname && !isMultiDocument) {
+      newPathname = next.pathname.replace(new RegExp(`^(${basePrefix}\\/)model\\/`), replacement)
+    }
   }
 
   if (newHash === next.hash && newPathname === next.pathname) {
