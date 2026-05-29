@@ -30,8 +30,6 @@ export type NavigationOptions =
 export const getNavigationOptions = (documentName: string, options?: NavigationOptions): TraverseSpecOptions => {
   const modelsSectionLabel = options?.modelsSectionLabel ?? DEFAULT_MODELS_SECTION_LABEL
   const modelsSectionSlug = slugify(modelsSectionLabel)
-  /** Legacy singular segment for individual schemas when using the default label. */
-  const modelEntryPrefix = modelsSectionLabel === DEFAULT_MODELS_SECTION_LABEL ? 'model' : modelsSectionSlug
 
   const generateId: IdGenerator = (props) => {
     const documentId = slugify(documentName)
@@ -141,12 +139,12 @@ export const getNavigationOptions = (documentName: string, options?: NavigationO
         : `${documentId}/`
 
       if (options?.generateModelSlug) {
-        return `${prefixTag}${modelEntryPrefix}/${options.generateModelSlug({
+        return `${prefixTag}${modelsSectionSlug}/${options.generateModelSlug({
           name: props.name,
         })}`
       }
 
-      return `${prefixTag}${modelEntryPrefix}/${slugify(props.name, { preserveCase: true })}`
+      return `${prefixTag}${modelsSectionSlug}/${slugify(props.name, { preserveCase: true })}`
     }
 
     if (props.type === 'example') {
