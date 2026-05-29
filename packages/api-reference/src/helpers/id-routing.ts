@@ -156,8 +156,6 @@ export const makeUrlFromId = (_id: string, basePath: string | undefined, isMulti
   return url
 }
 
-const LEGACY_MODEL_SEGMENT = /\/model\//g
-
 /**
  * Rewrite legacy `/model/<name>` URL segments to the current section's slug.
  *
@@ -171,19 +169,17 @@ const LEGACY_MODEL_SEGMENT = /\/model\//g
 export const redirectLegacyModelUrl = (url: string | URL, modelsSectionSlug: string): URL | null => {
   const next = typeof url === 'string' ? new URL(url) : new URL(url.toString())
   const replacement = `/${modelsSectionSlug}/`
-  let changed = false
 
-  if (LEGACY_MODEL_SEGMENT.test(next.hash)) {
-    next.hash = next.hash.replace(LEGACY_MODEL_SEGMENT, replacement)
-    changed = true
+  const newHash = next.hash.replace(/\/model\//g, replacement)
+  const newPathname = next.pathname.replace(/\/model\//g, replacement)
+
+  if (newHash === next.hash && newPathname === next.pathname) {
+    return null
   }
 
-  if (LEGACY_MODEL_SEGMENT.test(next.pathname)) {
-    next.pathname = next.pathname.replace(LEGACY_MODEL_SEGMENT, replacement)
-    changed = true
-  }
-
-  return changed ? next : null
+  next.hash = newHash
+  next.pathname = newPathname
+  return next
 }
 
 /** Extracts the schema parameters from the id if they are present */
