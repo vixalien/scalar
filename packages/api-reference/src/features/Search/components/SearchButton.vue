@@ -4,14 +4,20 @@ import { useModal } from '@scalar/components/modal'
 import { ScalarSidebarSearchButton } from '@scalar/components/sidebar'
 import { isMacOS } from '@scalar/helpers/general/is-mac-os'
 import { ScalarIconMagnifyingGlass } from '@scalar/icons'
-import type { ModelsSectionLabel } from '@scalar/types/api-reference'
+import {
+  DEFAULT_MODELS_SECTION_LABEL,
+  type ModelsSectionLabel,
+} from '@scalar/types/api-reference'
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
 import type { OpenApiDocument } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 import SearchModal from './SearchModal.vue'
 
-const { searchHotKey = 'k', modelsSectionLabel = 'Models' } = defineProps<{
+const {
+  searchHotKey = 'k',
+  modelsSectionLabel = DEFAULT_MODELS_SECTION_LABEL,
+} = defineProps<{
   forceIcon?: boolean
   searchHotKey?: string
   hideModels?: boolean

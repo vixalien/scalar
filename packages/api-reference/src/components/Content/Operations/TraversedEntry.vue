@@ -53,6 +53,7 @@ const {
     | 'orderSchemaPropertiesBy'
     | 'showOperationId'
     | 'hideModels'
+    | 'modelsSectionLabel'
   >
   /** Currently selected server for the document */
   selectedServer: ServerObject | null
@@ -179,7 +180,7 @@ function getPathValue(entry: TraversedOperation | TraversedWebhook) {
       :eventBus
       :isCollapsed="!expandedItems[entry.id]"
       :layout="options.layout"
-      :sectionTitle="entry.title">
+      :modelsSectionLabel="options.modelsSectionLabel">
       <TraversedEntry
         :authStore
         :clientOptions

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ScalarFormInputGroup } from '@scalar/components/form'
 import { ScalarToggleInput } from '@scalar/components/toggle'
-import type { ApiReferenceConfiguration } from '@scalar/types/api-reference'
+import {
+  DEFAULT_MODELS_SECTION_LABEL,
+  type ApiReferenceConfiguration,
+} from '@scalar/types/api-reference'
 import { computed } from 'vue'
 
 type LayoutOptions = {
@@ -45,7 +48,7 @@ function setValue(
 }
 
 const modelsSectionLabel = computed(
-  () => configuration?.modelsSectionLabel ?? 'Models',
+  () => configuration?.modelsSectionLabel ?? DEFAULT_MODELS_SECTION_LABEL,
 )
 </script>
 <template>
@@ -68,7 +71,7 @@ const modelsSectionLabel = computed(
     <ScalarToggleInput
       :modelValue="getValue('expandAllModelSections')"
       @update:modelValue="(v) => setValue('expandAllModelSections', !!v)">
-      Expand All {{ modelsSectionLabel }} Sections
+      Expand All {{ modelsSectionLabel }}
     </ScalarToggleInput>
     <ScalarToggleInput
       :modelValue="getValue('expandAllResponses')"

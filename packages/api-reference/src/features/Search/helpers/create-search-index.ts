@@ -1,4 +1,4 @@
-import type { ModelsSectionLabel } from '@scalar/types/api-reference'
+import { DEFAULT_MODELS_SECTION_LABEL, type ModelsSectionLabel } from '@scalar/types/api-reference'
 import { getResolvedRef } from '@scalar/workspace-store/helpers/get-resolved-ref'
 import { combineParams } from '@scalar/workspace-store/request-example'
 import type { TraversedEntry } from '@scalar/workspace-store/schemas/navigation'
@@ -86,7 +86,7 @@ export function createSearchIndex(
   options?: CreateSearchIndexOptions,
 ): FuseData[] {
   const index: FuseData[] = []
-  const modelsSectionTitle = options?.modelsSectionLabel ?? 'Models'
+  const modelsSectionTitle = options?.modelsSectionLabel ?? DEFAULT_MODELS_SECTION_LABEL
 
   /**
    * Recursively processes entries and their children to build the search index.

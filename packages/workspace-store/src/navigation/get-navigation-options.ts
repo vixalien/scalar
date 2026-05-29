@@ -1,5 +1,5 @@
 import { slugify } from '@scalar/helpers/string/slugify'
-import type { ApiReferenceConfigurationRaw } from '@scalar/types/api-reference'
+import { type ApiReferenceConfigurationRaw, DEFAULT_MODELS_SECTION_LABEL } from '@scalar/types/api-reference'
 
 import type { TraverseSpecOptions } from '@/navigation/types'
 import type { IdGenerator } from '@/schemas/navigation'
@@ -28,10 +28,10 @@ export type NavigationOptions =
  * The returned options can be influenced by the provided DocumentConfiguration
  */
 export const getNavigationOptions = (documentName: string, options?: NavigationOptions): TraverseSpecOptions => {
-  const modelsSectionLabel = options?.modelsSectionLabel ?? 'Models'
+  const modelsSectionLabel = options?.modelsSectionLabel ?? DEFAULT_MODELS_SECTION_LABEL
   const modelsSectionSlug = slugify(modelsSectionLabel)
   /** Legacy singular segment for individual schemas when using the default label. */
-  const modelEntryPrefix = modelsSectionLabel === 'Models' ? 'model' : modelsSectionSlug
+  const modelEntryPrefix = modelsSectionLabel === DEFAULT_MODELS_SECTION_LABEL ? 'model' : modelsSectionSlug
 
   const generateId: IdGenerator = (props) => {
     const documentId = slugify(documentName)

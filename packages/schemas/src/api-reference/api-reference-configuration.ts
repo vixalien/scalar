@@ -1,3 +1,4 @@
+import { DEFAULT_MODELS_SECTION_LABEL } from '@scalar/types/api-reference'
 import {
   any,
   array,
@@ -301,7 +302,7 @@ export const apiReferenceConfigurationWithSourceSchema = (rawInput: unknown) => 
     delete input.showToolbar
   }
 
-  input.modelsSectionLabel ??= 'Models'
+  input.modelsSectionLabel ??= DEFAULT_MODELS_SECTION_LABEL
 
   return input
 }

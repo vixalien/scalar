@@ -331,6 +331,9 @@ export type BaseConfiguration = {
 /** User-facing label for the components.schemas section in the sidebar, content, and search. */
 export type ModelsSectionLabel = 'Models' | 'Schemas' | (string & {})
 
+/** Default label for the components.schemas section. Preserves the historical `Models` wording and the `#models` hash. */
+export const DEFAULT_MODELS_SECTION_LABEL: ModelsSectionLabel = 'Models'
+
 type ExtendedConfiguration = {
   /** The layout to use for the references */
   layout: 'modern' | 'classic'

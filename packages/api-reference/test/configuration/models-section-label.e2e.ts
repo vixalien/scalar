@@ -18,4 +18,21 @@ test.describe('modelsSectionLabel', () => {
 
     await expect(page.getByRole('heading', { name: 'Models', level: 2 })).toBeVisible()
   })
+
+  test('uses a custom label across heading, sidebar, and URL slug', async ({ page }) => {
+    const example = await serveExample({ modelsSectionLabel: 'Data Types' })
+
+    await page.goto(`${example}#data-types`)
+
+    // Section heading reflects the custom label
+    await expect(page.getByRole('heading', { name: 'Data Types', level: 2 })).toBeVisible()
+
+    // Sidebar shows the custom label, not the default
+    await expect(page.getByRole('navigation').getByText('Data Types', { exact: true }).first()).toBeVisible()
+    await expect(page.getByRole('navigation').getByText('Models', { exact: true })).toHaveCount(0)
+
+    // Per-model URLs use the custom slug as their prefix (Galaxy spec has a `Planet` model)
+    const planetLink = page.getByRole('navigation').getByRole('link', { name: 'Planet' }).first()
+    await expect(planetLink).toHaveAttribute('href', /#.*data-types\/Planet$/)
+  })
 })

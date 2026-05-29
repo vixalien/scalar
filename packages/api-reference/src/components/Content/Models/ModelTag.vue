@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import {
+  DEFAULT_MODELS_SECTION_LABEL,
+  type ModelsSectionLabel,
+} from '@scalar/types/api-reference'
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
 
 import { Section, SectionHeader } from '@/components/Section'
@@ -7,12 +11,12 @@ import SectionContainerAccordion from '@/components/Section/SectionContainerAcco
 import SectionHeaderTag from '@/components/Section/SectionHeaderTag.vue'
 import ShowMoreButton from '@/components/ShowMoreButton.vue'
 
-const { sectionTitle = 'Models' } = defineProps<{
+const { modelsSectionLabel = DEFAULT_MODELS_SECTION_LABEL } = defineProps<{
   id: string
   isCollapsed: boolean
   eventBus: WorkspaceEventBus
   layout: 'classic' | 'modern'
-  sectionTitle?: string
+  modelsSectionLabel?: ModelsSectionLabel
 }>()
 </script>
 <template>
@@ -22,10 +26,12 @@ const { sectionTitle = 'Models' } = defineProps<{
     id="model">
     <Section
       :id="id"
-      :aria-label="sectionTitle"
+      :aria-label="modelsSectionLabel"
       @intersecting="() => eventBus?.emit('intersecting:nav-item', { id })">
       <SectionHeader>
-        <SectionHeaderTag :level="2"> {{ sectionTitle }} </SectionHeaderTag>
+        <SectionHeaderTag :level="2">
+          {{ modelsSectionLabel }}
+        </SectionHeaderTag>
       </SectionHeader>
       <template v-if="!isCollapsed">
         <slot />
@@ -42,14 +48,14 @@ const { sectionTitle = 'Models' } = defineProps<{
   <!-- Classic Layout Model Container -->
   <SectionContainerAccordion
     v-else
-    :aria-label="sectionTitle"
+    :aria-label="modelsSectionLabel"
     class="pb-12"
     :modelValue="!isCollapsed"
     @update:modelValue="
       () => eventBus?.emit('toggle:nav-item', { id, open: isCollapsed })
     ">
     <template #title>
-      <SectionHeader :level="2">{{ sectionTitle }}</SectionHeader>
+      <SectionHeader :level="2">{{ modelsSectionLabel }}</SectionHeader>
     </template>
     <slot />
   </SectionContainerAccordion>

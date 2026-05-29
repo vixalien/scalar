@@ -28,6 +28,7 @@ import {
 } from '@scalar/sidebar'
 import { getThemeStyles, hasObtrusiveScrollbars } from '@scalar/themes'
 import {
+  DEFAULT_MODELS_SECTION_LABEL,
   type AnyApiReferenceConfiguration,
   type ApiReferenceConfiguration,
   type ApiReferenceConfigurationRaw,
@@ -240,7 +241,8 @@ const mergedConfig = computed<ApiReferenceConfiguration>(() => {
 
   return {
     ...merged,
-    modelsSectionLabel: merged.modelsSectionLabel ?? 'Models',
+    modelsSectionLabel:
+      merged.modelsSectionLabel ?? DEFAULT_MODELS_SECTION_LABEL,
   }
 })
 

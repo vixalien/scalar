@@ -8,13 +8,16 @@ import {
 } from '@scalar/icons'
 import type { ScalarIconComponent } from '@scalar/icons/types'
 import { HttpMethod } from '@scalar/sidebar'
-import type { ModelsSectionLabel } from '@scalar/types/api-reference'
+import {
+  DEFAULT_MODELS_SECTION_LABEL,
+  type ModelsSectionLabel,
+} from '@scalar/types/api-reference'
 import type { FuseResult } from 'fuse.js'
 import { computed } from 'vue'
 
 import type { EntryType, FuseData } from '@/features/Search/types'
 
-const { modelsSectionLabel = 'Models' } = defineProps<{
+const { modelsSectionLabel = DEFAULT_MODELS_SECTION_LABEL } = defineProps<{
   id: string
   isSelected: boolean
   result: FuseResult<FuseData>
