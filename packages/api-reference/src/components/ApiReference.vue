@@ -279,6 +279,9 @@ if (typeof window !== 'undefined') {
     slugify(
       mergedConfig.value.modelsSectionLabel ?? DEFAULT_MODELS_SECTION_LABEL,
     ),
+    activeSlug.value,
+    isMultiDocument.value,
+    mergedConfig.value.pathRouting?.basePath,
   )
   if (canonical) {
     window.history.replaceState({}, '', canonical.toString())
