@@ -23,9 +23,10 @@ test.describe('modelsSectionLabel', () => {
     const example = await serveExample()
 
     // Pre-streamline URLs used `/model/<name>` (singular). Bookmarks should still resolve.
-    await page.goto(`${example}#scalar-galaxy/model/planet`)
+    // serveExample runs in single-doc mode, so the URL omits the document slug.
+    await page.goto(`${example}#model/Planet`)
 
-    await expect(page).toHaveURL(/#scalar-galaxy\/models\/planet$/)
+    await expect(page).toHaveURL(/#models\/Planet$/)
   })
 
   test('uses a custom label across heading and sidebar', async ({ page }) => {
