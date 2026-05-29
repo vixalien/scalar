@@ -19,6 +19,15 @@ test.describe('modelsSectionLabel', () => {
     await expect(page.getByRole('heading', { name: 'Models', level: 2 })).toBeVisible()
   })
 
+  test('redirects legacy /model/ deep links to the streamlined slug', async ({ page }) => {
+    const example = await serveExample()
+
+    // Pre-streamline URLs used `/model/<name>` (singular). Bookmarks should still resolve.
+    await page.goto(`${example}#scalar-galaxy/model/planet`)
+
+    await expect(page).toHaveURL(/#scalar-galaxy\/models\/planet$/)
+  })
+
   test('uses a custom label across heading, sidebar, and URL slug', async ({ page }) => {
     const example = await serveExample({ modelsSectionLabel: 'Data Types' })
 

@@ -156,6 +156,36 @@ export const makeUrlFromId = (_id: string, basePath: string | undefined, isMulti
   return url
 }
 
+const LEGACY_MODEL_SEGMENT = /\/model\//g
+
+/**
+ * Rewrite legacy `/model/<name>` URL segments to the current section's slug.
+ *
+ * Earlier versions hardcoded `model/` (singular) as the prefix for individual schema entries
+ * even though the section itself was `models/`. We now use the same plural slug for both,
+ * so old bookmarks like `#default/model/User` would 404. This rewrites them in place.
+ *
+ * Returns the canonicalized URL when a rewrite happens, or null when the input does not
+ * contain the legacy segment.
+ */
+export const redirectLegacyModelUrl = (url: string | URL, modelsSectionSlug: string): URL | null => {
+  const next = typeof url === 'string' ? new URL(url) : new URL(url.toString())
+  const replacement = `/${modelsSectionSlug}/`
+  let changed = false
+
+  if (LEGACY_MODEL_SEGMENT.test(next.hash)) {
+    next.hash = next.hash.replace(LEGACY_MODEL_SEGMENT, replacement)
+    changed = true
+  }
+
+  if (LEGACY_MODEL_SEGMENT.test(next.pathname)) {
+    next.pathname = next.pathname.replace(LEGACY_MODEL_SEGMENT, replacement)
+    changed = true
+  }
+
+  return changed ? next : null
+}
+
 /** Extracts the schema parameters from the id if they are present */
 export const getSchemaParamsFromId = (id: string): { rawId: string; params: string } => {
   const matcher = id.match(/(.*)(\.body\.|\.path\.|\.query\.|\.header\.)(.*)/)

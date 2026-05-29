@@ -19,6 +19,7 @@ import {
 } from '@scalar/components/color-mode-toggle'
 import { addScalarClassesToHeadless } from '@scalar/components/helpers'
 import { ScalarSidebarFooter } from '@scalar/components/sidebar'
+import { slugify } from '@scalar/helpers/string/slugify'
 import { isLocalUrl } from '@scalar/helpers/url/is-local-url'
 import { apiReferenceConfigurationSchema } from '@scalar/schemas/api-reference'
 import {
@@ -80,6 +81,7 @@ import {
   getIdFromUrl,
   makeUrlFromId,
   matchesBasePath,
+  redirectLegacyModelUrl,
 } from '@/helpers/id-routing'
 import {
   scrollToLazy as _scrollToLazy,
@@ -268,6 +270,20 @@ pluginManager.notifyInit(mergedConfig.value)
 watch(mergedConfig, (config) => pluginManager.notifyConfigChange(config))
 // ---------------------------------------------------------------------------
 /** Navigation State Handling */
+
+// Redirect legacy `/model/<name>` URLs to the current section's plural slug
+// so bookmarks from before the slug streamline keep resolving.
+if (typeof window !== 'undefined') {
+  const canonical = redirectLegacyModelUrl(
+    window.location.href,
+    slugify(
+      mergedConfig.value.modelsSectionLabel ?? DEFAULT_MODELS_SECTION_LABEL,
+    ),
+  )
+  if (canonical) {
+    window.history.replaceState({}, '', canonical.toString())
+  }
+}
 
 // Front-end redirect
 if (mergedConfig.value.redirect && typeof window !== 'undefined') {

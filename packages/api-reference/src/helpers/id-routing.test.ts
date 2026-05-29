@@ -8,6 +8,7 @@ import {
   getSchemaParamsFromId,
   makeUrlFromId,
   matchesBasePath,
+  redirectLegacyModelUrl,
   sanitizeBasePath,
 } from './id-routing'
 
@@ -824,5 +825,41 @@ describe('makeUrlFromId', () => {
   it('handles id with only slashes in multi-document mode', () => {
     const result = makeUrlFromId('///', undefined, true)
     expect(result?.hash).toBe('#///')
+  })
+})
+
+describe('redirectLegacyModelUrl', () => {
+  it('rewrites a legacy hash to the streamlined slug', () => {
+    const result = redirectLegacyModelUrl('https://example.com/#default/model/User', 'models')
+    expect(result?.hash).toBe('#default/models/User')
+  })
+
+  it('rewrites a tagged legacy hash', () => {
+    const result = redirectLegacyModelUrl('https://example.com/#default/tag/pets/model/Pet', 'models')
+    expect(result?.hash).toBe('#default/tag/pets/models/Pet')
+  })
+
+  it('rewrites a legacy pathname for path routing', () => {
+    const result = redirectLegacyModelUrl('https://example.com/docs/default/model/User', 'models')
+    expect(result?.pathname).toBe('/docs/default/models/User')
+  })
+
+  it('uses a custom slug when the label is not the default', () => {
+    const result = redirectLegacyModelUrl('https://example.com/#default/model/User', 'schemas')
+    expect(result?.hash).toBe('#default/schemas/User')
+  })
+
+  it('preserves schema sub-paths after the model name', () => {
+    const result = redirectLegacyModelUrl('https://example.com/#default/model/User.body.id', 'models')
+    expect(result?.hash).toBe('#default/models/User.body.id')
+  })
+
+  it('returns null when the URL has no legacy segment', () => {
+    expect(redirectLegacyModelUrl('https://example.com/#default/models/User', 'models')).toBeNull()
+    expect(redirectLegacyModelUrl('https://example.com/#default/tag/pets', 'models')).toBeNull()
+  })
+
+  it('does not touch the section-level `/models` hash', () => {
+    expect(redirectLegacyModelUrl('https://example.com/#default/models', 'models')).toBeNull()
   })
 })
