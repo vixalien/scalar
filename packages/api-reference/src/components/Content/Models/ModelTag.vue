@@ -21,9 +21,7 @@ const { modelsSectionLabel = DEFAULT_MODELS_SECTION_LABEL } = defineProps<{
 </script>
 <template>
   <!-- Modern Layout Model Container -->
-  <SectionContainer
-    v-if="layout === 'modern'"
-    id="model">
+  <SectionContainer v-if="layout === 'modern'">
     <Section
       :id="id"
       :aria-label="modelsSectionLabel"
