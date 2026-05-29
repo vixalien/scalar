@@ -40,8 +40,8 @@ test.describe('modelsSectionLabel', () => {
     await expect(page.getByRole('navigation').getByText('Data Types', { exact: true }).first()).toBeVisible()
     await expect(page.getByRole('navigation').getByText('Models', { exact: true })).toHaveCount(0)
 
-    // Per-model URLs use the custom slug as their prefix (Galaxy spec has a `Planet` model)
-    const planetLink = page.getByRole('navigation').getByRole('link', { name: 'Planet' }).first()
-    await expect(planetLink).toHaveAttribute('href', /#.*data-types\/Planet$/)
+    // Per-model entry IDs use the custom slug as their prefix (Galaxy spec has a `Planet` model)
+    const planetItem = page.getByRole('navigation').getByRole('button', { name: 'Planet' }).first()
+    await expect(planetItem).toHaveAttribute('data-sidebar-id', /data-types\/Planet$/)
   })
 })
